@@ -25,3 +25,10 @@ models/
 # OS
 .DS_Store
 Thumbs.db
+
+*.zip
+*.faiss
+*.pkl
+day03/model/
+**/data/raw/
+wandb/
