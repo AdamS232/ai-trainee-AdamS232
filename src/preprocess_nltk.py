@@ -1,6 +1,4 @@
-import re
-import string
-
+import re, string
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
@@ -23,3 +21,9 @@ def clean_text(text: str, remove_stopwords: bool = True) -> str:
         tokens = [t for t in tokens if t not in STOPWORDS]
     tokens = [LEMMATIZER.lemmatize(t) for t in tokens]
     return " ".join(tokens)
+
+
+if __name__ == "__main__":
+    sample = "<br />I LOVED this movie!!! See https://example.com or email me@test.com. The actors were running."
+    print("Input: ", sample)
+    print("Output:", clean_text(sample))
