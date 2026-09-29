@@ -17,6 +17,7 @@ venv/
 data/raw/
 data/interim/
 models/
+chroma_store/
 
 # IDE
 .vscode/

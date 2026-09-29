@@ -84,3 +84,17 @@
 2. The `english` analyzer **removes English stopwords** ("the," "of," "is"), while `standard` keeps them by default. It also **stems words** ("running" → "run," "movies" → "movi"), while `standard` leaves words as they are.
 
 3. IDF measures how few documents contain a word. A rare word like "cinematography" appears in few reviews, so matching it is strong evidence that a review is relevant and it gets a high weight. A common word like "movie" appears almost everywhere, so matching it tells you little and it gets a low weight.
+
+## Day 7 — Vector databases & hybrid search
+- pgvector: stored vectors in PostgreSQL and ranked by cosine with `<=>` (cat 1.00, dog 0.995, car 0.07)
+- Loaded the same 5,000 IMDB reviews into ChromaDB, Qdrant, and Elasticsearch (`dense_vector`); all three returned the same nearest neighbors
+- With a sentiment filter, ChromaDB missed a review that Qdrant ranked #1: approximate (HNSW) search + filtering can skip the true best match
+- Bake-off on 20 queries (Recall@10 / MRR): BM25 0.75 / 0.68, semantic 0.65 / 0.53, hybrid (RRF) **0.85** / 0.63. See `day07/eval.md`
+- Hybrid's biggest gain was on paraphrase queries (4/7 vs 2/7 for each method alone); BM25 kept the best MRR because RRF sometimes pulled its #1 results down
+
+### Self-reflection answers
+1. RRF only uses ranks, and the same `k` is applied to every document, so changing it rarely changes the final order much. A smaller `k` just gives top ranks more weight; a larger one flattens the differences. That's why the default of 60 works well almost everywhere.
+
+2. Qdrant runs as a proper server built to scale (sharding, replication, vector compression) and applies filters during the search itself. ChromaDB is mainly for local prototypes. I saw it miss the best match when filtering by sentiment, which would get worse at 10 million documents.
+
+3. kNN can fail on rare exact names: in my bake-off, semantic search completely missed "Richard Brooks The Professionals," which BM25 ranked #1, because the embedding captures the general meaning rather than specific names. BM25 fails when the query shares no words with the document, like paraphrases: "reminds me of campus antiwar demonstrations in the sixties" found nothing with BM25 but was semantic's #1.
