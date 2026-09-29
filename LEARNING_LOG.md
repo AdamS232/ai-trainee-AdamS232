@@ -70,3 +70,17 @@
 2. Flat search checks every vector: 10 million comparisons per search. HNSW follows shortcuts and only checks a few thousand. With only 1,000 vectors, checking all of them is so fast that HNSW's extra steps cost more than they save.
 
 3. Without normalizing, longer vectors get higher scores just because of their size, not their meaning, so the search ranks the wrong results higher.
+
+## Day 6 — Elasticsearch & BM25
+- Ran Elasticsearch 8.15 + Kibana in Docker (`day06/docker-compose.yml`) on my personal laptop, since Docker virtualization is blocked on the work laptop
+- Tried mappings, match, bool/filter, and aggregations in Kibana Dev Tools; connected from Python and bulk-indexed with `helpers.bulk`
+- Indexed all 25,000 IMDB training reviews (`day06/index_imdb.py`) and ran 5 queries (`day06/queries.md`)
+- "waste of time" matched 787 reviews, 94% negative; the english analyzer drops "of" but keeps its position, so "waste your time" matched too
+- BM25 vs semantic on the same 20k Wikipedia chunks: BM25 9/10, semantic 8/10 (`day06/compare_bm25_vs_semantic.md`). BM25 wins on rare exact words; semantic ranks paraphrases better
+
+### Self-reflection answers
+1. A `keyword` field isn't analyzed, so `match` compares the word to the **whole stored value, exactly**, including case. "positive" matches a sentiment of "positive," but "Positive" or "pos" returns nothing, and "science" won't match a value of "Science Fiction."
+
+2. The `english` analyzer **removes English stopwords** ("the," "of," "is"), while `standard` keeps them by default. It also **stems words** ("running" → "run," "movies" → "movi"), while `standard` leaves words as they are.
+
+3. IDF measures how few documents contain a word. A rare word like "cinematography" appears in few reviews, so matching it is strong evidence that a review is relevant and it gets a high weight. A common word like "movie" appears almost everywhere, so matching it tells you little and it gets a low weight.
