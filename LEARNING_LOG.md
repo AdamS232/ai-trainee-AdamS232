@@ -98,3 +98,36 @@
 2. Qdrant runs as a proper server built to scale (sharding, replication, vector compression) and applies filters during the search itself. ChromaDB is mainly for local prototypes. I saw it miss the best match when filtering by sentiment, which would get worse at 10 million documents.
 
 3. kNN can fail on rare exact names: in my bake-off, semantic search completely missed "Richard Brooks The Professionals," which BM25 ranked #1, because the embedding captures the general meaning rather than specific names. BM25 fails when the query shares no words with the document, like paraphrases: "reminds me of campus antiwar demonstrations in the sixties" found nothing with BM25 but was semantic's #1.
+
+## Day 8 — RAG (Retrieval-Augmented Generation)
+
+**What I built**
+- `day08/rag_scratch.py` — RAG from scratch: pypdf → custom chunker (800 chars, 100 overlap) → bge-small embeddings → ChromaDB → cross-encoder re-rank (top 50 → top 5) → llama3.2:3b via Ollama.
+- `day08/rag_langchain.py` — same pipeline with LangChain (PyPDFLoader, RecursiveCharacterTextSplitter, Chroma, ChatOllama, LCEL chain).
+- `day08/rag_llamaindex.py` — same pipeline in ~8 lines with LlamaIndex (in-memory index).
+- `day08/rag_app.py` — Gradio PDF Q&A chatbot over 3 papers (RAG, Transformer, Sentence-BERT) with re-ranking and a collapsible Sources panel.
+- `day08/test_questions.md` — 4 test questions and actual answers.
+
+**Key results**
+- All three versions answered "RAG-Sequence and RAG-Token" correctly.
+- Re-ranking changed the answer from just naming the two formulations to explaining the difference between them, because the cross-encoder picked more explanatory chunks.
+- App: 3/4 tests passed as expected; the two-paper synthesis question returned "I don't know" (expected failure).
+
+**Problems I hit and fixed**
+- Chroma rejected the collection name `"kb"` (minimum 3 characters) → renamed to `"kb_docs"`.
+- The whole PDF became **1 chunk** because the chunker split on blank lines and pypdf output has none → split on any newline instead.
+- The LangChain install upgraded websockets to 17.1 again (breaks Gradio) → pinned back to 12.0.
+- The doc's Gradio sketch built a re-ranked prompt but then called `chain.invoke(question)`, which ignores it → rewrote `answer()` to send the re-ranked context straight to the LLM.
+
+**Self-reflection**
+
+1. *Why does chunk-with-overlap usually outperform fixed-size-no-overlap?*
+   Fixed-size chunks cut wherever the character count runs out, often mid-sentence. Then a fact gets split in half, and neither chunk has the whole thing, so neither matches the question well. Overlap repeats the last ~100 characters at the start of the next chunk, so anything near a boundary appears whole in at least one chunk. I saw how much chunking matters when my first run produced just 1 chunk: retrieval had nothing to choose between and sent the whole paper.
+
+2. *Why is re-ranking cheap enough to add, but retrieval with a cross-encoder alone is not?*
+   A bi-encoder embeds every chunk once ahead of time, so a search is one question embedding plus a fast vector lookup. A cross-encoder has to read the question *together with* each chunk, so nothing can be precomputed. Using it alone means running the model on every chunk in the database for every question. Re-ranking runs it only on the top 20–50 candidates, which costs about 50–100 ms instead of seconds or minutes, and you still get the accuracy boost where it matters.
+
+3. *Name two hallucination modes you observed today, and what you'd do to mitigate each.*
+   - **Fake/placeholder citations:** in the app, the model cited `[file p.5]`, copying the word "file" from the prompt's example instead of the real file name. Mitigation: don't let the LLM write citations at all. Attach sources in code from the retrieved chunks' metadata (like my Sources panel does), or give a concrete example citation with a real file name in the prompt.
+   - **Ignoring instructions (missing citations):** the scratch version and app answer 1 gave no citation even though the prompt required one. A 3B model doesn't follow every rule reliably. Mitigation: check the output in code (e.g., reject or retry if no `[...]` citation appears), or use a larger model.
+   - (The synthesis question was a *safe* failure: the model refused rather than inventing an answer. The fix there is retrieval, not the prompt: retrieve per document, raise top_k, or split the question into sub-questions.)

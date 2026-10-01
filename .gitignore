@@ -18,6 +18,8 @@ data/raw/
 data/interim/
 models/
 chroma_store/
+day08/chroma/
+day08/lc_chroma/
 
 # IDE
 .vscode/
