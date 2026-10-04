@@ -1,0 +1,10 @@
+What does functools.lru_cache do?
+What is the difference between append and extend on a list?
+What are abstract base classes (abc) in Python?
+What is __slots__ and why would you use it?
+How does argparse help with command-line scripts?
+What is the difference between np.concatenate and np.stack?
+What does np.argmax return?
+What is the difference between pd.concat and pd.merge?
+What is a set comprehension?
+Why does collections.OrderedDict still exist now that dicts keep insertion order?

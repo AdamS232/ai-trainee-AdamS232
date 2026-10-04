@@ -4,6 +4,7 @@ __pycache__/
 .venv/
 venv/
 .env
+  __pycache__/
 
 # Jupyter
 .ipynb_checkpoints/
@@ -20,6 +21,7 @@ models/
 chroma_store/
 day08/chroma/
 day08/lc_chroma/
+llama.cpp/
 
 # IDE
 .vscode/

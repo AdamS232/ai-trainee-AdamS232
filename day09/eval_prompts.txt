@@ -1,0 +1,10 @@
+Explain the difference between a list and a tuple in Python.
+Write a short, polite email asking a coworker to review my report by Friday.
+Give me three tips for staying focused while working from home.
+What causes the seasons on Earth?
+Summarize the idea of supply and demand in two sentences.
+Write a Python function that checks whether a string is a palindrome.
+What is the capital of Australia, and why isn't it Sydney?
+Explain overfitting in machine learning to a beginner.
+List the steps to make a cup of tea.
+A train travels 120 km in 1.5 hours. What is its average speed? Show your work.

@@ -131,3 +131,52 @@
    - **Fake/placeholder citations:** in the app, the model cited `[file p.5]`, copying the word "file" from the prompt's example instead of the real file name. Mitigation: don't let the LLM write citations at all. Attach sources in code from the retrieved chunks' metadata (like my Sources panel does), or give a concrete example citation with a real file name in the prompt.
    - **Ignoring instructions (missing citations):** the scratch version and app answer 1 gave no citation even though the prompt required one. A 3B model doesn't follow every rule reliably. Mitigation: check the output in code (e.g., reject or retry if no `[...]` citation appears), or use a larger model.
    - (The synthesis question was a *safe* failure: the model refused rather than inventing an answer. The fix there is retrieval, not the prompt: retrieve per document, raise top_k, or split the question into sub-questions.)
+
+   ## Day 9 — Fine-Tuning with LoRA / QLoRA
+
+**What I built**
+- `day09/prepare_data.py` — converts OpenAssistant guanaco (`### Human:/### Assistant:`) into Llama 3.2's chat template.
+- `day09/finetune_qlora.py` — QLoRA fine-tune of Llama-3.2-1B-Instruct (NF4 4-bit base, LoRA r=16, alpha=32, all 7 linear layers), 2 epochs, logged to W&B.
+- `day09/eval_compare.py` + `eval_qualitative.md` — 10-prompt side-by-side, base vs fine-tuned, scored 1–5.
+- `day09/eval_rouge.py` — ROUGE on 50 held-out test conversations, base vs fine-tuned.
+- `day09/merge.py` → merged fp16 model → GGUF (llama.cpp) → Q4_K_M → served in Ollama via `day09/Modelfile` as `my-tuned`.
+
+**Key results**
+- Trained locally on an RTX 4070 Laptop (8 GB) in 54 min. Train loss 2.18 → ~1.49; eval loss 1.552 (epoch 1) → 1.545 (epoch 2).
+- ROUGE-L: base 0.187 → fine-tuned 0.230 (+23% relative); improved on ROUGE-1/2/Lsum too.
+- Qualitative averages (Helpfulness / Style / Factuality): base 4.1 / 3.8 / 4.4, fine-tuned 3.6 / 4.1 / 4.0. Fine-tuned won 4/10 prompts, base 5/10, 1 tie — **did not meet the ≥6/10 target**.
+- Final Q4_K_M GGUF: **763 MB** (from 2,357 MB fp16); Ollama lists it at 807 MB.
+
+**What I learned from the results**
+- Fine-tuning changed *style* (more concise, closer to the dataset's answers — confirmed by ROUGE) but not *knowledge*; factuality slightly dropped (e.g., wrong list/tuple facts).
+- The base was already instruction-tuned, so generic chat data had little to add. A small domain-specific dataset would be the better use of fine-tuning; for facts, RAG (Day 8) is the right tool.
+- Epoch 2 barely improved eval loss (1.552 → 1.545) while train loss kept dropping → early overfitting; 1 epoch would have been almost as good at half the time.
+- ROUGE measures word overlap, not correctness — it rose even though factuality fell.
+
+**Problems I hit and fixed**
+- PyTorch was the CPU-only build (`2.14.0+cpu`) → reinstalled the CUDA 12.6 build.
+- The doc's install was missing `bitsandbytes`; the script imported a `prepare_data` module that didn't exist → created it.
+- OOM during evaluation: default eval batch size 8 × 1024 tokens × 128k vocab needed 3.9 GB → `per_device_eval_batch_size=1`.
+- The simple parser silently dropped ~25% of conversations (9,846 → 7,376).
+- The doc's ROUGE code split on the word "assistant", which corrupted prompts and references → rewrote it using the raw first human/assistant turn, and scored the base model too for comparison.
+- Skipped `llama.cpp`'s `requirements.txt` (it could have replaced my CUDA PyTorch); `llama-quantize` needs compiling → used the prebuilt Windows release instead. Ollama's `--quantize` doesn't accept GGUF input.
+- The doc's Modelfile template had no Llama 3 chat markers → replaced it with the proper Llama 3 template.
+
+**Self-reflection**
+
+1. *Why do we double-quantize in NF4?*
+   NF4 stores weights in blocks of 64, and each block needs its own scaling number, stored in 32-bit. That adds about 0.5 extra bits per weight, which is a lot when the weights themselves are only 4 bits. Double quantization compresses those scaling numbers too (to 8-bit), cutting the overhead to about 0.13 bits per weight. It's free memory savings with almost no quality cost. On my 1B model it only saves about 45 MB, but on a 65B model it saves around 3 GB, which can decide whether training fits on the GPU at all.
+
+2. *Why does `packing=True` matter so much for short-sample instruction datasets?*
+   Most guanaco conversations are much shorter than the 1,024-token limit. Without packing, every short example gets padded with filler up to the longest one in its batch, so the GPU spends most of its time on padding that teaches nothing. Packing joins several conversations into full 1,024-token blocks. In my run, 7,376 conversations became 2,869 packed blocks, about 2.6 conversations per block, so training took roughly 2.5x fewer steps. That's the difference between about 54 minutes and over 2 hours.
+
+3. *What would break if you set `lora_alpha` much larger than 2 × r?*
+   The adapter's changes are multiplied by alpha ÷ r. With r=16 and alpha=32 that's ×2. With, say, alpha=512 it would be ×32, so every update would be 16x stronger. That works like a much higher learning rate: loss and gradient spikes, possible NaN (not-a-number) errors in fp16, and the adapter overpowering the base model, which makes it forget what it knew and produce repetitive or garbled text. To compensate, you'd have to lower the learning rate by about the same factor.
+
+   **Case study: Python Tutor specialist**
+- Wrote a 100-example domain dataset (`day09/python_tutor.jsonl`): Python/NumPy/pandas concepts, each answered in exactly two paragraphs with the same system prompt.
+- QLoRA fine-tune in 65 seconds (66 steps). Train loss 2.86 → 0.78; eval loss best at epoch 2 (1.182), slightly worse at epoch 3 (1.195) → overfitting; 2 epochs would have been enough.
+- Evaluated on 10 Python topics *not* in the training data (`day09/case_study_eval.md`), same system prompt for both models.
+- Style: base 2.0 → fine-tuned **5.0** (followed the two-paragraph format 10/10 vs 0/10). Factuality: 3.0 → 1.9 (invented APIs like `@abc.init`).
+- Fine-tuned won 7/10 on total score, but only through Style; on helpfulness + factuality, base won 9/10.
+- Lesson: a small focused dataset changes tone and format very effectively, but can't add knowledge. Combine fine-tuning (for format) with RAG (for facts).
