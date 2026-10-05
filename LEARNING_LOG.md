@@ -180,3 +180,22 @@
 - Style: base 2.0 → fine-tuned **5.0** (followed the two-paragraph format 10/10 vs 0/10). Factuality: 3.0 → 1.9 (invented APIs like `@abc.init`).
 - Fine-tuned won 7/10 on total score, but only through Style; on helpfulness + factuality, base won 9/10.
 - Lesson: a small focused dataset changes tone and format very effectively, but can't add knowledge. Combine fine-tuning (for format) with RAG (for facts).
+
+## Day 10 — Capstone: AskThePaper (RAG over PDFs)
+
+**What I built:** A local app where you upload a PDF and ask questions about it. FastAPI backend (`/health`, `/ingest`, `/search`, `/chat`), Streamlit chat UI, ChromaDB for vectors, bge-small embeddings, a cross-encoder re-ranker, and `llama3.2:3b` on Ollama. Answers cite file and page, and the app says "I don't know" when the best re-rank score is below a threshold.
+
+**Results (17 questions, 3 PDFs):** retrieval hit rate 85%, answer accuracy 62%, correct refusals 4/4, false refusals 1/13, citation rate 92%, ~5 s per answer.
+
+**Problems I hit:**
+- Wrong answer on a basic question: the right chunk never reached the top 20. Fixed by adding the bge query prefix and retrieving 50 before re-ranking.
+- Import errors from empty or missing files, and a capstone `requirements.txt` that had the wrong contents.
+- Tables in PDFs come out messy, so one table answer was wrongly refused.
+
+### Retrospective
+
+**What surprised me:** Retrieval matters more than the LLM. Most wrong answers came from the wrong chunks being retrieved, not from the model. Re-ranking and one small detail (the query prefix) made a bigger difference than any prompt change. Also, Day 9 showed fine-tuning changes style, not knowledge, which is why RAG was the right choice for the capstone.
+
+**What I'd teach differently:** Start with a small eval set on day one of any LLM project, before tuning anything. Without numbers, it's hard to tell whether a change helped. I'd also teach the Windows setup (CUDA PyTorch, `curl.exe`, PowerShell paths) up front, since a lot of time went to environment issues.
+
+**What I want to go deeper on next:** Hybrid search (BM25 + vectors), better PDF parsing for tables, LLM-as-judge evaluation, and deploying with Docker.

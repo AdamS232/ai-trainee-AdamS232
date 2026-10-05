@@ -4,7 +4,8 @@ __pycache__/
 .venv/
 venv/
 .env
-  __pycache__/
+__pycache__/
+day10/capstone/.env
 
 # Jupyter
 .ipynb_checkpoints/
@@ -22,6 +23,7 @@ chroma_store/
 day08/chroma/
 day08/lc_chroma/
 llama.cpp/
+day10/capstone/chroma/
 
 # IDE
 .vscode/
@@ -37,3 +39,4 @@ Thumbs.db
 day03/model/
 **/data/raw/
 wandb/
+day10/capstone/data/

@@ -1,0 +1,641 @@
+[
+  {
+    "id": 1,
+    "type": "positive",
+    "source": "attention.pdf",
+    "question": "How many attention heads does the base Transformer use?",
+    "keywords": [
+      "8"
+    ],
+    "answer": "According to [S2], the Transformer employs 8 parallel attention layers, or heads.",
+    "sources": [
+      {
+        "source": "attention.pdf",
+        "page": 5,
+        "score": 3.06,
+        "text": "is similar to that of single-head attention with full dimensionality.\n3.2.3 Applications of Attention in our Model\nThe Transformer uses multi-head attention in three different ways:\n\u2022In \"encoder-decoder attention\" layers, the queries come from the previous decoder layer,\nand the memory keys and values come from the output of the encoder. This allows every\nposition in the decoder to attend over all positions in the input sequence. This mimics the\ntypical encoder-decoder attention mechanisms in sequence-to-sequence models such as\n[38, 2, 9].\n\u2022The encoder contains self-attention layers. In a self-attention layer all of the keys, values\nand queries come from the same place, in this case, the output of the previous layer in the"
+      },
+      {
+        "source": "attention.pdf",
+        "page": 5,
+        "score": 0.01,
+        "text": "output values. These are concatenated and once again projected, resulting in the final values, as\ndepicted in Figure 2.\nMulti-head attention allows the model to jointly attend to information from different representation\nsubspaces at different positions. With a single attention head, averaging inhibits this.\nMultiHead( Q, K, V ) = Concat(head 1, ...,head h)WO\nwhere head i= Attention( QWQ\ni, KWK\ni, V WV\ni)\nWhere the projections are parameter matrices WQ\ni\u2208Rdmodel\u00d7dk,WK\ni\u2208Rdmodel\u00d7dk,WV\ni\u2208Rdmodel\u00d7dv\nandWO\u2208Rhdv\u00d7dmodel.\nIn this work we employ h= 8 parallel attention layers, or heads. For each of these we use\ndk=dv=dmodel/h= 64 . Due to the reduced dimension of each head, the total computational cost\nis similar to that of single-head attention with full dimensionality."
+      },
+      {
+        "source": "attention.pdf",
+        "page": 3,
+        "score": -0.62,
+        "text": "Figure 1: The Transformer - model architecture.\nThe Transformer follows this overall architecture using stacked self-attention and point-wise, fully\nconnected layers for both the encoder and decoder, shown in the left and right halves of Figure 1,\nrespectively.\n3.1 Encoder and Decoder Stacks\nEncoder: The encoder is composed of a stack of N= 6 identical layers. Each layer has two\nsub-layers. The first is a multi-head self-attention mechanism, and the second is a simple, position-\nwise fully connected feed-forward network. We employ a residual connection [ 11] around each of\nthe two sub-layers, followed by layer normalization [ 1]. That is, the output of each sub-layer is\nLayerNorm( x+ Sublayer( x)), where Sublayer( x)is the function implemented by the sub-layer"
+      },
+      {
+        "source": "attention.pdf",
+        "page": 2,
+        "score": -0.72,
+        "text": "the number of operations required to relate signals from two arbitrary input or output positions grows\nin the distance between positions, linearly for ConvS2S and logarithmically for ByteNet. This makes\nit more difficult to learn dependencies between distant positions [ 12]. In the Transformer this is\nreduced to a constant number of operations, albeit at the cost of reduced effective resolution due\nto averaging attention-weighted positions, an effect we counteract with Multi-Head Attention as\ndescribed in section 3.2.\nSelf-attention, sometimes called intra-attention is an attention mechanism relating different positions\nof a single sequence in order to compute a representation of the sequence. Self-attention has been"
+      }
+    ],
+    "ttft": 9.929053800005931,
+    "total": 10.133795700006885,
+    "refused": false,
+    "retrieval_hit": true,
+    "correct": true,
+    "cited": true
+  },
+  {
+    "id": 2,
+    "type": "paraphrase",
+    "source": "attention.pdf",
+    "question": "In the Transformer paper, how many parallel attention layers run side by side?",
+    "keywords": [
+      "8"
+    ],
+    "answer": "According to [S3], in this work, they employ h= 8 parallel attention layers, or heads, running side by side.",
+    "sources": [
+      {
+        "source": "attention.pdf",
+        "page": 3,
+        "score": 0.36,
+        "text": "Figure 1: The Transformer - model architecture.\nThe Transformer follows this overall architecture using stacked self-attention and point-wise, fully\nconnected layers for both the encoder and decoder, shown in the left and right halves of Figure 1,\nrespectively.\n3.1 Encoder and Decoder Stacks\nEncoder: The encoder is composed of a stack of N= 6 identical layers. Each layer has two\nsub-layers. The first is a multi-head self-attention mechanism, and the second is a simple, position-\nwise fully connected feed-forward network. We employ a residual connection [ 11] around each of\nthe two sub-layers, followed by layer normalization [ 1]. That is, the output of each sub-layer is\nLayerNorm( x+ Sublayer( x)), where Sublayer( x)is the function implemented by the sub-layer"
+      },
+      {
+        "source": "attention.pdf",
+        "page": 5,
+        "score": -0.4,
+        "text": "is similar to that of single-head attention with full dimensionality.\n3.2.3 Applications of Attention in our Model\nThe Transformer uses multi-head attention in three different ways:\n\u2022In \"encoder-decoder attention\" layers, the queries come from the previous decoder layer,\nand the memory keys and values come from the output of the encoder. This allows every\nposition in the decoder to attend over all positions in the input sequence. This mimics the\ntypical encoder-decoder attention mechanisms in sequence-to-sequence models such as\n[38, 2, 9].\n\u2022The encoder contains self-attention layers. In a self-attention layer all of the keys, values\nand queries come from the same place, in this case, the output of the previous layer in the"
+      },
+      {
+        "source": "attention.pdf",
+        "page": 5,
+        "score": -1.31,
+        "text": "output values. These are concatenated and once again projected, resulting in the final values, as\ndepicted in Figure 2.\nMulti-head attention allows the model to jointly attend to information from different representation\nsubspaces at different positions. With a single attention head, averaging inhibits this.\nMultiHead( Q, K, V ) = Concat(head 1, ...,head h)WO\nwhere head i= Attention( QWQ\ni, KWK\ni, V WV\ni)\nWhere the projections are parameter matrices WQ\ni\u2208Rdmodel\u00d7dk,WK\ni\u2208Rdmodel\u00d7dk,WV\ni\u2208Rdmodel\u00d7dv\nandWO\u2208Rhdv\u00d7dmodel.\nIn this work we employ h= 8 parallel attention layers, or heads. For each of these we use\ndk=dv=dmodel/h= 64 . Due to the reduced dimension of each head, the total computational cost\nis similar to that of single-head attention with full dimensionality."
+      },
+      {
+        "source": "attention.pdf",
+        "page": 4,
+        "score": -1.72,
+        "text": "Scaled Dot-Product Attention\n Multi-Head Attention\nFigure 2: (left) Scaled Dot-Product Attention. (right) Multi-Head Attention consists of several\nattention layers running in parallel.\nof the values, where the weight assigned to each value is computed by a compatibility function of the\nquery with the corresponding key.\n3.2.1 Scaled Dot-Product Attention\nWe call our particular attention \"Scaled Dot-Product Attention\" (Figure 2). The input consists of\nqueries and keys of dimension dk, and values of dimension dv. We compute the dot products of the\nquery with all keys, divide each by\u221adk, and apply a softmax function to obtain the weights on the\nvalues.\nIn practice, we compute the attention function on a set of queries simultaneously, packed together"
+      }
+    ],
+    "ttft": 4.593883399997139,
+    "total": 4.927073700004257,
+    "refused": false,
+    "retrieval_hit": true,
+    "correct": true,
+    "cited": true
+  },
+  {
+    "id": 3,
+    "type": "positive",
+    "source": "attention.pdf",
+    "question": "How many identical layers are in the Transformer encoder stack?",
+    "keywords": [
+      "6"
+    ],
+    "answer": "According to [S1], the Transformer encoder stack is composed of a stack of N= 6 identical layers.",
+    "sources": [
+      {
+        "source": "attention.pdf",
+        "page": 3,
+        "score": 8.52,
+        "text": "Figure 1: The Transformer - model architecture.\nThe Transformer follows this overall architecture using stacked self-attention and point-wise, fully\nconnected layers for both the encoder and decoder, shown in the left and right halves of Figure 1,\nrespectively.\n3.1 Encoder and Decoder Stacks\nEncoder: The encoder is composed of a stack of N= 6 identical layers. Each layer has two\nsub-layers. The first is a multi-head self-attention mechanism, and the second is a simple, position-\nwise fully connected feed-forward network. We employ a residual connection [ 11] around each of\nthe two sub-layers, followed by layer normalization [ 1]. That is, the output of each sub-layer is\nLayerNorm( x+ Sublayer( x)), where Sublayer( x)is the function implemented by the sub-layer"
+      },
+      {
+        "source": "attention.pdf",
+        "page": 5,
+        "score": 4.03,
+        "text": "In addition to attention sub-layers, each of the layers in our encoder and decoder contains a fully\nconnected feed-forward network, which is applied to each position separately and identically. This\nconsists of two linear transformations with a ReLU activation in between.\nFFN( x) = max(0 , xW 1+b1)W2+b2 (2)\nWhile the linear transformations are the same across different positions, they use different parameters\nfrom layer to layer. Another way of describing this is as two convolutions with kernel size 1.\nThe dimensionality of input and output is dmodel = 512 , and the inner-layer has dimensionality\ndff= 2048 .\n3.4 Embeddings and Softmax\nSimilarly to other sequence transduction models, we use learned embeddings to convert the input"
+      },
+      {
+        "source": "attention.pdf",
+        "page": 3,
+        "score": 2.88,
+        "text": "LayerNorm( x+ Sublayer( x)), where Sublayer( x)is the function implemented by the sub-layer\nitself. To facilitate these residual connections, all sub-layers in the model, as well as the embedding\nlayers, produce outputs of dimension dmodel = 512 .\nDecoder: The decoder is also composed of a stack of N= 6identical layers. In addition to the two\nsub-layers in each encoder layer, the decoder inserts a third sub-layer, which performs multi-head\nattention over the output of the encoder stack. Similar to the encoder, we employ residual connections\naround each of the sub-layers, followed by layer normalization. We also modify the self-attention\nsub-layer in the decoder stack to prevent positions from attending to subsequent positions. This"
+      },
+      {
+        "source": "attention.pdf",
+        "page": 5,
+        "score": 1.85,
+        "text": "is similar to that of single-head attention with full dimensionality.\n3.2.3 Applications of Attention in our Model\nThe Transformer uses multi-head attention in three different ways:\n\u2022In \"encoder-decoder attention\" layers, the queries come from the previous decoder layer,\nand the memory keys and values come from the output of the encoder. This allows every\nposition in the decoder to attend over all positions in the input sequence. This mimics the\ntypical encoder-decoder attention mechanisms in sequence-to-sequence models such as\n[38, 2, 9].\n\u2022The encoder contains self-attention layers. In a self-attention layer all of the keys, values\nand queries come from the same place, in this case, the output of the previous layer in the"
+      }
+    ],
+    "ttft": 4.828524399999878,
+    "total": 5.094634799999767,
+    "refused": false,
+    "retrieval_hit": true,
+    "correct": true,
+    "cited": true
+  },
+  {
+    "id": 4,
+    "type": "positive",
+    "source": "attention.pdf",
+    "question": "What is the model dimension d_model of the base Transformer?",
+    "keywords": [
+      "512"
+    ],
+    "answer": "According to Table 3 in [S1], the model dimension d_model of the base Transformer is 512.",
+    "sources": [
+      {
+        "source": "attention.pdf",
+        "page": 9,
+        "score": 2.67,
+        "text": "Table 3: Variations on the Transformer architecture. Unlisted values are identical to those of the base\nmodel. All metrics are on the English-to-German translation development set, newstest2013. Listed\nperplexities are per-wordpiece, according to our byte-pair encoding, and should not be compared to\nper-word perplexities.\nN d model dff h d k dvPdrop \u03f5lstrain PPL BLEU params\nsteps (dev) (dev) \u00d7106\nbase 6 512 2048 8 64 64 0.1 0.1 100K 4.92 25.8 65\n(A)1 512 512 5.29 24.9\n4 128 128 5.00 25.5\n16 32 32 4.91 25.8\n32 16 16 5.01 25.4\n(B)16 5.16 25.1 58\n32 5.01 25.4 60\n(C)2 6.11 23.7 36\n4 5.19 25.3 50\n8 4.88 25.5 80\n256 32 32 5.75 24.5 28\n1024 128 128 4.66 26.0 168\n1024 5.12 25.4 53\n4096 4.75 26.2 90\n(D)0.0 5.77 24.6\n0.2 4.95 25.5\n0.0 4.67 25.3\n0.2 5.47 25.7"
+      },
+      {
+        "source": "attention.pdf",
+        "page": 8,
+        "score": -0.42,
+        "text": "model by multiplying the training time, the number of GPUs used, and an estimate of the sustained\nsingle-precision floating-point capacity of each GPU5.\n6.2 Model Variations\nTo evaluate the importance of different components of the Transformer, we varied our base model\nin different ways, measuring the change in performance on English-to-German translation on the\n5We used values of 2.8, 3.7, 6.0 and 9.5 TFLOPS for K80, K40, M40 and P100, respectively.\n8"
+      },
+      {
+        "source": "attention.pdf",
+        "page": 8,
+        "score": -1.13,
+        "text": "Residual Dropout We apply dropout [ 33] to the output of each sub-layer, before it is added to the\nsub-layer input and normalized. In addition, we apply dropout to the sums of the embeddings and the\npositional encodings in both the encoder and decoder stacks. For the base model, we use a rate of\nPdrop= 0.1.\nLabel Smoothing During training, we employed label smoothing of value \u03f5ls= 0.1[36]. This\nhurts perplexity, as the model learns to be more unsure, but improves accuracy and BLEU score.\n6 Results\n6.1 Machine Translation\nOn the WMT 2014 English-to-German translation task, the big transformer model (Transformer (big)\nin Table 2) outperforms the best previously reported models (including ensembles) by more than 2.0"
+      },
+      {
+        "source": "attention.pdf",
+        "page": 9,
+        "score": -1.21,
+        "text": "In Table 3 rows (B), we observe that reducing the attention key size dkhurts model quality. This\nsuggests that determining compatibility is not easy and that a more sophisticated compatibility\nfunction than dot product may be beneficial. We further observe in rows (C) and (D) that, as expected,\nbigger models are better, and dropout is very helpful in avoiding over-fitting. In row (E) we replace our\nsinusoidal positional encoding with learned positional embeddings [ 9], and observe nearly identical\nresults to the base model.\n6.3 English Constituency Parsing\nTo evaluate if the Transformer can generalize to other tasks we performed experiments on English\nconstituency parsing. This task presents specific challenges: the output is subject to strong structural"
+      }
+    ],
+    "ttft": 4.780580299993744,
+    "total": 5.051087899992126,
+    "refused": false,
+    "retrieval_hit": true,
+    "correct": false,
+    "cited": true
+  },
+  {
+    "id": 5,
+    "type": "positive",
+    "source": "attention.pdf",
+    "question": "What BLEU score did the big Transformer reach on WMT 2014 English-to-German?",
+    "keywords": [
+      "28.4"
+    ],
+    "answer": "I don't know based on the provided documents.",
+    "sources": [
+      {
+        "source": "attention.pdf",
+        "page": 8,
+        "score": 7.06,
+        "text": "in Table 2) outperforms the best previously reported models (including ensembles) by more than 2.0\nBLEU, establishing a new state-of-the-art BLEU score of 28.4. The configuration of this model is\nlisted in the bottom line of Table 3. Training took 3.5days on 8P100 GPUs. Even our base model\nsurpasses all previously published models and ensembles, at a fraction of the training cost of any of\nthe competitive models.\nOn the WMT 2014 English-to-French translation task, our big model achieves a BLEU score of 41.0,\noutperforming all of the previously published single models, at less than 1/4the training cost of the\nprevious state-of-the-art model. The Transformer (big) model trained for English-to-French used\ndropout rate Pdrop= 0.1, instead of 0.3."
+      },
+      {
+        "source": "attention.pdf",
+        "page": 1,
+        "score": 6.28,
+        "text": "convolutional neural networks that include an encoder and a decoder. The best\nperforming models also connect the encoder and decoder through an attention\nmechanism. We propose a new simple network architecture, the Transformer,\nbased solely on attention mechanisms, dispensing with recurrence and convolutions\nentirely. Experiments on two machine translation tasks show these models to\nbe superior in quality while being more parallelizable and requiring significantly\nless time to train. Our model achieves 28.4 BLEU on the WMT 2014 English-\nto-German translation task, improving over the existing best results, including\nensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task,\nour model establishes a new single-model state-of-the-art BLEU score of 41.8 after"
+      },
+      {
+        "source": "attention.pdf",
+        "page": 8,
+        "score": 5.57,
+        "text": "Table 2: The Transformer achieves better BLEU scores than previous state-of-the-art models on the\nEnglish-to-German and English-to-French newstest2014 tests at a fraction of the training cost.\nModelBLEU Training Cost (FLOPs)\nEN-DE EN-FR EN-DE EN-FR\nByteNet [18] 23.75\nDeep-Att + PosUnk [39] 39.2 1.0\u00b71020\nGNMT + RL [38] 24.6 39.92 2.3\u00b710191.4\u00b71020\nConvS2S [9] 25.16 40.46 9.6\u00b710181.5\u00b71020\nMoE [32] 26.03 40.56 2.0\u00b710191.2\u00b71020\nDeep-Att + PosUnk Ensemble [39] 40.4 8.0\u00b71020\nGNMT + RL Ensemble [38] 26.30 41.16 1.8\u00b710201.1\u00b71021\nConvS2S Ensemble [9] 26.36 41.29 7.7\u00b710191.2\u00b71021\nTransformer (base model) 27.3 38.1 3.3\u00b71018\nTransformer (big) 28.4 41.8 2.3\u00b71019\nResidual Dropout We apply dropout [ 33] to the output of each sub-layer, before it is added to the"
+      },
+      {
+        "source": "attention.pdf",
+        "page": 8,
+        "score": 5.18,
+        "text": "Residual Dropout We apply dropout [ 33] to the output of each sub-layer, before it is added to the\nsub-layer input and normalized. In addition, we apply dropout to the sums of the embeddings and the\npositional encodings in both the encoder and decoder stacks. For the base model, we use a rate of\nPdrop= 0.1.\nLabel Smoothing During training, we employed label smoothing of value \u03f5ls= 0.1[36]. This\nhurts perplexity, as the model learns to be more unsure, but improves accuracy and BLEU score.\n6 Results\n6.1 Machine Translation\nOn the WMT 2014 English-to-German translation task, the big transformer model (Transformer (big)\nin Table 2) outperforms the best previously reported models (including ensembles) by more than 2.0"
+      }
+    ],
+    "ttft": 4.951358000005712,
+    "total": 5.082655599995633,
+    "refused": true,
+    "retrieval_hit": true,
+    "correct": false,
+    "cited": false
+  },
+  {
+    "id": 6,
+    "type": "paraphrase",
+    "source": "attention.pdf",
+    "question": "Which optimization algorithm was used to train the Transformer?",
+    "keywords": [
+      "Adam"
+    ],
+    "answer": "According to [S2], the Transformer was trained using an optimization algorithm that is not explicitly mentioned. However, it is mentioned that the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers, and that the authors achieved a new state of the art on translation tasks.",
+    "sources": [
+      {
+        "source": "attention.pdf",
+        "page": 9,
+        "score": -0.55,
+        "text": "constraints and is significantly longer than the input. Furthermore, RNN sequence-to-sequence\nmodels have not been able to attain state-of-the-art results in small-data regimes [37].\nWe trained a 4-layer transformer with dmodel = 1024 on the Wall Street Journal (WSJ) portion of the\nPenn Treebank [ 25], about 40K training sentences. We also trained it in a semi-supervised setting,\nusing the larger high-confidence and BerkleyParser corpora from with approximately 17M sentences\n[37]. We used a vocabulary of 16K tokens for the WSJ only setting and a vocabulary of 32K tokens\nfor the semi-supervised setting.\nWe performed only a small number of experiments to select the dropout, both attention and residual"
+      },
+      {
+        "source": "attention.pdf",
+        "page": 10,
+        "score": -0.61,
+        "text": "In this work, we presented the Transformer, the first sequence transduction model based entirely on\nattention, replacing the recurrent layers most commonly used in encoder-decoder architectures with\nmulti-headed self-attention.\nFor translation tasks, the Transformer can be trained significantly faster than architectures based\non recurrent or convolutional layers. On both WMT 2014 English-to-German and WMT 2014\nEnglish-to-French translation tasks, we achieve a new state of the art. In the former task our best\nmodel outperforms even all previously reported ensembles.\nWe are excited about the future of attention-based models and plan to apply them to other tasks. We\nplan to extend the Transformer to problems involving input and output modalities other than text and"
+      },
+      {
+        "source": "sbert.pdf",
+        "page": 2,
+        "score": -0.68,
+        "text": "(Kiros et al., 2015) trains an encoder-decoder ar-\nchitecture to predict the surrounding sentences.\nInferSent (Conneau et al., 2017) uses labeled\ndata of the Stanford Natural Language Inference\ndataset (Bowman et al., 2015) and the Multi-\nGenre NLI dataset (Williams et al., 2018) to train\na siamese BiLSTM network with max-pooling\nover the output. Conneau et al. showed, that\nInferSent consistently outperforms unsupervised\nmethods like SkipThought. Universal Sentence\nEncoder (Cer et al., 2018) trains a transformer\nnetwork and augments unsupervised learning with\ntraining on SNLI. Hill et al. (2016) showed, that\nthe task on which sentence embeddings are trained\nsigni\ufb01cantly impacts their quality. Previous work\n(Conneau et al., 2017; Cer et al., 2018) found that"
+      },
+      {
+        "source": "my_document.pdf",
+        "page": 3,
+        "score": -0.76,
+        "text": "2.3 Generator: BART\nThe generator component p\u03b8(yi|x,z,y 1:i\u22121)could be modelled using any encoder-decoder. We use\nBART-large [ 32], a pre-trained seq2seq transformer [ 58] with 400M parameters. To combine the input\nxwith the retrieved content zwhen generating from BART, we simply concatenate them. BART was\npre-trained using a denoising objective and a variety of different noising functions. It has obtained\nstate-of-the-art results on a diverse set of generation tasks and outperforms comparably-sized T5\nmodels [32]. We refer to the BART generator parameters \u03b8as the parametric memory henceforth.\n2.4 Training\nWe jointly train the retriever and generator components without any direct supervision on what"
+      }
+    ],
+    "ttft": 4.852497500003665,
+    "total": 5.599384699991788,
+    "refused": false,
+    "retrieval_hit": false,
+    "correct": false,
+    "cited": true
+  },
+  {
+    "id": 7,
+    "type": "positive",
+    "source": "my_document.pdf",
+    "question": "What two RAG formulations does the paper compare?",
+    "keywords": [
+      "RAG-Sequence",
+      "RAG-Token",
+      "per token",
+      "whole generated sequence"
+    ],
+    "answer": "The paper compares two RAG formulations: \n\n1. One which conditions on the same retrieved passages across the whole generated sequence.\n2. Another which can use different passages per token.",
+    "sources": [
+      {
+        "source": "my_document.pdf",
+        "page": 1,
+        "score": 2.5,
+        "text": "pare two RAG formulations, one which conditions on the same retrieved passages\nacross the whole generated sequence, and another which can use different passages\nper token. We \ufb01ne-tune and evaluate our models on a wide range of knowledge-\nintensive NLP tasks and set the state of the art on three open domain QA tasks,\noutperforming parametric seq2seq models and task-speci\ufb01c retrieve-and-extract\narchitectures. For language generation tasks, we \ufb01nd that RAG models generate\nmore speci\ufb01c, diverse and factual language than a state-of-the-art parametric-only\nseq2seq baseline.\n1 Introduction\nPre-trained neural language models have been shown to learn a substantial amount of in-depth knowl-\nedge from data [ 47]. They can do so without any access to an external memory, as a parameterized"
+      },
+      {
+        "source": "my_document.pdf",
+        "page": 5,
+        "score": 2.26,
+        "text": "and TriviaQA. RAG compares favourably to the DPR QA system, which uses a BERT-based \u201ccross-\nencoder\u201d to re-rank documents, along with an extractive reader. RAG demonstrates that neither a\nre-ranker nor extractive reader is necessary for state-of-the-art performance.\nThere are several advantages to generating answers even when it is possible to extract them. Docu-\nments with clues about the answer but do not contain the answer verbatim can still contribute towards\na correct answer being generated, which is not possible with standard extractive approaches, leading\n5"
+      },
+      {
+        "source": "my_document.pdf",
+        "page": 4,
+        "score": 0.58,
+        "text": "and train RAG by directly minimizing the negative log-likelihood of answers. We compare RAG to\nthe popular extractive QA paradigm [ 5,7,31,26], where answers are extracted spans from retrieved\ndocuments, relying primarily on non-parametric knowledge. We also compare to \u201cClosed-Book\nQA\u201d approaches [ 52], which, like RAG, generate answers, but which do not exploit retrieval, instead\nrelying purely on parametric knowledge. We consider four popular open-domain QA datasets: Natural\nQuestions (NQ) [ 29], TriviaQA (TQA) [ 24]. WebQuestions (WQ) [ 3] and CuratedTrec (CT) [ 2]. As\nCT and WQ are small, we follow DPR [ 26] by initializing CT and WQ models with our NQ RAG\nmodel. We use the same train/dev/test splits as prior work [ 31,26] and report Exact Match (EM)"
+      },
+      {
+        "source": "my_document.pdf",
+        "page": 5,
+        "score": -0.94,
+        "text": "4 Results\n4.1 Open-domain Question Answering\nTable 1 shows results for RAG along with state-of-the-art models. On all four open-domain QA\ntasks, RAG sets a new state of the art (only on the T5-comparable split for TQA). RAG combines\nthe generation \ufb02exibility of the \u201cclosed-book\u201d (parametric only) approaches and the performance of\n\"open-book\" retrieval-based approaches. Unlike REALM and T5+SSM, RAG enjoys strong results\nwithout expensive, specialized \u201csalient span masking\u201d pre-training [ 20]. It is worth noting that RAG\u2019s\nretriever is initialized using DPR\u2019s retriever, which uses retrieval supervision on Natural Questions\nand TriviaQA. RAG compares favourably to the DPR QA system, which uses a BERT-based \u201ccross-"
+      }
+    ],
+    "ttft": 4.830445100000361,
+    "total": 5.205772999994224,
+    "refused": false,
+    "retrieval_hit": true,
+    "correct": true,
+    "cited": false
+  },
+  {
+    "id": 8,
+    "type": "paraphrase",
+    "source": "my_document.pdf",
+    "question": "What component does RAG use to fetch relevant passages?",
+    "keywords": [
+      "DPR",
+      "Dense Passage Retriever",
+      "dense passage",
+      "retriever"
+    ],
+    "answer": "According to [S3] (my_document.pdf, p.2), RAG uses a Dense Passage Retriever (DPR) to fetch relevant passages.",
+    "sources": [
+      {
+        "source": "my_document.pdf",
+        "page": 2,
+        "score": 3.75,
+        "text": "leverage two components: (i) a retriever p\u03b7(z|x)with parameters \u03b7that returns (top-K truncated)\ndistributions over text passages given a query xand (ii) a generator p\u03b8(yi|x,z,y 1:i\u22121)parametrized\n1Code to run experiments with RAG has been open-sourced as part of the HuggingFace Transform-\ners Library [ 66] and can be found at https://github.com/huggingface/transformers/blob/master/\nexamples/rag/ . An interactive demo of RAG models can be found at https://huggingface.co/rag/\n2"
+      },
+      {
+        "source": "my_document.pdf",
+        "page": 1,
+        "score": 1.36,
+        "text": "pare two RAG formulations, one which conditions on the same retrieved passages\nacross the whole generated sequence, and another which can use different passages\nper token. We \ufb01ne-tune and evaluate our models on a wide range of knowledge-\nintensive NLP tasks and set the state of the art on three open domain QA tasks,\noutperforming parametric seq2seq models and task-speci\ufb01c retrieve-and-extract\narchitectures. For language generation tasks, we \ufb01nd that RAG models generate\nmore speci\ufb01c, diverse and factual language than a state-of-the-art parametric-only\nseq2seq baseline.\n1 Introduction\nPre-trained neural language models have been shown to learn a substantial amount of in-depth knowl-\nedge from data [ 47]. They can do so without any access to an external memory, as a parameterized"
+      },
+      {
+        "source": "my_document.pdf",
+        "page": 2,
+        "score": 0.54,
+        "text": "We build RAG models where the parametric memory is a pre-trained seq2seq transformer, and the\nnon-parametric memory is a dense vector index of Wikipedia, accessed with a pre-trained neural\nretriever. We combine these components in a probabilistic model trained end-to-end (Fig. 1). The\nretriever (Dense Passage Retriever [ 26], henceforth DPR) provides latent documents conditioned on\nthe input, and the seq2seq model (BART [ 32]) then conditions on these latent documents together with\nthe input to generate the output. We marginalize the latent documents with a top-K approximation,\neither on a per-output basis (assuming the same document is responsible for all tokens) or a per-token\nbasis (where different documents are responsible for different tokens). Like T5 [ 51] or BART, RAG"
+      },
+      {
+        "source": "my_document.pdf",
+        "page": 5,
+        "score": 0.32,
+        "text": "MSMARCO as an open-domain abstractive QA task. MSMARCO has some questions that cannot be\nanswered in a way that matches the reference answer without access to the gold passages, such as\n\u201cWhat is the weather in V olcano, CA?\u201d so performance will be lower without using gold passages.\nWe also note that some MSMARCO questions cannot be answered using Wikipedia alone. Here,\nRAG can rely on parametric knowledge to generate reasonable responses.\n3.3 Jeopardy Question Generation\nTo evaluate RAG\u2019s generation abilities in a non-QA setting, we study open-domain question gen-\neration. Rather than use questions from standard open-domain QA tasks, which typically consist\nof short, simple questions, we propose the more demanding task of generating Jeopardy questions."
+      }
+    ],
+    "ttft": 4.648726200000965,
+    "total": 4.991327299998375,
+    "refused": false,
+    "retrieval_hit": true,
+    "correct": true,
+    "cited": true
+  },
+  {
+    "id": 9,
+    "type": "positive",
+    "source": "my_document.pdf",
+    "question": "Which pre-trained model does RAG use as its generator?",
+    "keywords": [
+      "BART"
+    ],
+    "answer": "According to [S2], the pre-trained seq2seq transformer (BART [32]) is used as the generator in RAG models.",
+    "sources": [
+      {
+        "source": "my_document.pdf",
+        "page": 2,
+        "score": 5.66,
+        "text": "Index ) with a pre-trained seq2seq model ( Generator ) and \ufb01ne-tune end-to-end. For query x, we use\nMaximum Inner Product Search (MIPS) to \ufb01nd the top-K documents zi. For \ufb01nal prediction y, we\ntreatzas a latent variable and marginalize over seq2seq predictions given different documents.\nbut have only explored open-domain extractive question answering. Here, we bring hybrid parametric\nand non-parametric memory to the \u201cworkhorse of NLP,\u201d i.e. sequence-to-sequence (seq2seq) models.\nWe endow pre-trained, parametric-memory generation models with a non-parametric memory through\na general-purpose \ufb01ne-tuning approach which we refer to as retrieval-augmented generation (RAG).\nWe build RAG models where the parametric memory is a pre-trained seq2seq transformer, and the"
+      },
+      {
+        "source": "my_document.pdf",
+        "page": 2,
+        "score": 4.24,
+        "text": "We build RAG models where the parametric memory is a pre-trained seq2seq transformer, and the\nnon-parametric memory is a dense vector index of Wikipedia, accessed with a pre-trained neural\nretriever. We combine these components in a probabilistic model trained end-to-end (Fig. 1). The\nretriever (Dense Passage Retriever [ 26], henceforth DPR) provides latent documents conditioned on\nthe input, and the seq2seq model (BART [ 32]) then conditions on these latent documents together with\nthe input to generate the output. We marginalize the latent documents with a top-K approximation,\neither on a per-output basis (assuming the same document is responsible for all tokens) or a per-token\nbasis (where different documents are responsible for different tokens). Like T5 [ 51] or BART, RAG"
+      },
+      {
+        "source": "my_document.pdf",
+        "page": 2,
+        "score": 3.48,
+        "text": "basis (where different documents are responsible for different tokens). Like T5 [ 51] or BART, RAG\ncan be \ufb01ne-tuned on any seq2seq task, whereby both the generator and retriever are jointly learned.\nThere has been extensive previous work proposing architectures to enrich systems with non-parametric\nmemory which are trained from scratch for speci\ufb01c tasks, e.g. memory networks [ 64,55], stack-\naugmented networks [ 25] and memory layers [ 30]. In contrast, we explore a setting where both\nparametric and non-parametric memory components are pre-trained and pre-loaded with extensive\nknowledge. Crucially, by using pre-trained access mechanisms, the ability to access knowledge is\npresent without additional training."
+      },
+      {
+        "source": "my_document.pdf",
+        "page": 4,
+        "score": 3.41,
+        "text": "minimize the negative marginal log-likelihood of each target,\u2211\nj\u2212logp(yj|xj)using stochastic\ngradient descent with Adam [ 28]. Updating the document encoder BERTdduring training is costly as\nit requires the document index to be periodically updated as REALM does during pre-training [ 20].\nWe do not \ufb01nd this step necessary for strong performance, and keep the document encoder (and\nindex) \ufb01xed, only \ufb01ne-tuning the query encoder BERT qand the BART generator.\n2.5 Decoding\nAt test time, RAG-Sequence and RAG-Token require different ways to approximate arg maxyp(y|x).\nRAG-Token The RAG-Token model can be seen as a standard, autoregressive seq2seq genera-\ntor with transition probability: p\u2032\n\u03b8(yi|x,y 1:i\u22121) =\u2211\nz\u2208top-k(p(\u00b7|x))p\u03b7(zi|x)p\u03b8(yi|x,zi,y1:i\u22121)To\ndecode, we can plug p\u2032"
+      }
+    ],
+    "ttft": 4.8330159000033746,
+    "total": 5.168140299996594,
+    "refused": false,
+    "retrieval_hit": true,
+    "correct": true,
+    "cited": true
+  },
+  {
+    "id": 10,
+    "type": "positive",
+    "source": "my_document.pdf",
+    "question": "What knowledge source does RAG retrieve documents from?",
+    "keywords": [
+      "Wikipedia"
+    ],
+    "answer": "According to [S1], RAG retrieves documents from its non-parametric memory.",
+    "sources": [
+      {
+        "source": "my_document.pdf",
+        "page": 8,
+        "score": 4.58,
+        "text": "This shows we can update RAG\u2019s world knowledge by simply replacing its non-parametric memory.\nEffect of Retrieving more documents Models are trained with either 5 or 10 retrieved latent\ndocuments, and we do not observe signi\ufb01cant differences in performance between them. We have the\n\ufb02exibility to adjust the number of retrieved documents at test time, which can affect performance and\nruntime. Figure 3 (left) shows that retrieving more documents at test time monotonically improves\nOpen-domain QA results for RAG-Sequence, but performance peaks for RAG-Token at 10 retrieved\ndocuments. Figure 3 (right) shows that retrieving more documents leads to higher Rouge-L for\nRAG-Token at the expense of Bleu-1, but the effect is less pronounced for RAG-Sequence.\n10 20 30 40 50"
+      },
+      {
+        "source": "my_document.pdf",
+        "page": 4,
+        "score": 4.07,
+        "text": "and train RAG by directly minimizing the negative log-likelihood of answers. We compare RAG to\nthe popular extractive QA paradigm [ 5,7,31,26], where answers are extracted spans from retrieved\ndocuments, relying primarily on non-parametric knowledge. We also compare to \u201cClosed-Book\nQA\u201d approaches [ 52], which, like RAG, generate answers, but which do not exploit retrieval, instead\nrelying purely on parametric knowledge. We consider four popular open-domain QA datasets: Natural\nQuestions (NQ) [ 29], TriviaQA (TQA) [ 24]. WebQuestions (WQ) [ 3] and CuratedTrec (CT) [ 2]. As\nCT and WQ are small, we follow DPR [ 26] by initializing CT and WQ models with our NQ RAG\nmodel. We use the same train/dev/test splits as prior work [ 31,26] and report Exact Match (EM)"
+      },
+      {
+        "source": "my_document.pdf",
+        "page": 7,
+        "score": 3.78,
+        "text": "We also analyze whether documents retrieved by RAG correspond to documents annotated as gold\nevidence in FEVER. We calculate the overlap in article titles between the top kdocuments retrieved\nby RAG and gold evidence annotations. We \ufb01nd that the top retrieved document is from a gold article\nin 71% of cases, and a gold article is present in the top 10 retrieved articles in 90% of cases.\n4.5 Additional Results\nGeneration Diversity Section 4.3 shows that RAG models are more factual and speci\ufb01c than\nBART for Jeopardy question generation. Following recent work on diversity-promoting decoding\n[33,59,39], we also investigate generation diversity by calculating the ratio of distinct ngrams to\ntotal ngrams generated by different models. Table 5 shows that RAG-Sequence\u2019s generations are"
+      },
+      {
+        "source": "my_document.pdf",
+        "page": 9,
+        "score": 2.96,
+        "text": "pieces of retrieved content, as well as learning latent retrieval, and retrieving evidence documents\nrather than related training pairs. This said, RAG techniques may work well in these settings, and\ncould represent promising future work.\n6 Discussion\nIn this work, we presented hybrid generation models with access to parametric and non-parametric\nmemory. We showed that our RAG models obtain state of the art results on open-domain QA. We\nfound that people prefer RAG\u2019s generation over purely parametric BART, \ufb01nding RAG more factual\nand speci\ufb01c. We conducted an thorough investigation of the learned retrieval component, validating\nits effectiveness, and we illustrated how the retrieval index can be hot-swapped to update the model"
+      }
+    ],
+    "ttft": 4.86448649999511,
+    "total": 5.06499499999336,
+    "refused": false,
+    "retrieval_hit": false,
+    "correct": false,
+    "cited": true
+  },
+  {
+    "id": 11,
+    "type": "positive",
+    "source": "sbert.pdf",
+    "question": "What network structures does Sentence-BERT use to fine-tune BERT?",
+    "keywords": [
+      "siamese",
+      "triplet"
+    ],
+    "answer": "According to [S1] (sbert.pdf, p.3), Sentence-BERT uses two network structures: \n\n1. Siamese network structure: The two BERT networks have tied weights.\n2. Triplet network structure: The network structure depends on the available training data.\n\nThese network structures are used to update the weights of BERT such that the produced sentence embeddings are semantically meaningful and can be compared with cosine-similarity.",
+    "sources": [
+      {
+        "source": "sbert.pdf",
+        "page": 3,
+        "score": 6.64,
+        "text": "In order to \ufb01ne-tune BERT / RoBERTa, we cre-\nate siamese and triplet networks (Schroff et al.,\n2015) to update the weights such that the produced\nsentence embeddings are semantically meaningful\nand can be compared with cosine-similarity.\nThe network structure depends on the available\nSentence A  Sentence B  BERT BERT u v \npooling  pooling  cosine -sim(u, v) -1 \u2026 1  Figure 2: SBERT architecture at inference, for exam-\nple, to compute similarity scores. This architecture is\nalso used with the regression objective function.\ntraining data. We experiment with the following\nstructures and objective functions.\nClassi\ufb01cation Objective Function. We con-\ncatenate the sentence embeddings uandvwith\nthe element-wise difference |u\u2212v|and multiply it\nwith the trainable weight Wt\u2208R3n\u00d7k:"
+      },
+      {
+        "source": "sbert.pdf",
+        "page": 1,
+        "score": 6.15,
+        "text": "of BERT makes it unsuitable for semantic sim-\nilarity search as well as for unsupervised tasks\nlike clustering.\nIn this publication, we present Sentence-BERT\n(SBERT), a modi\ufb01cation of the pretrained\nBERT network that use siamese and triplet net-\nwork structures to derive semantically mean-\ningful sentence embeddings that can be com-\npared using cosine-similarity. This reduces the\neffort for \ufb01nding the most similar pair from 65\nhours with BERT / RoBERTa to about 5 sec-\nonds with SBERT, while maintaining the ac-\ncuracy from BERT.\nWe evaluate SBERT and SRoBERTa on com-\nmon STS tasks and transfer learning tasks,\nwhere it outperforms other state-of-the-art\nsentence embeddings methods.1\n1 Introduction\nIn this publication, we present Sentence-BERT\n(SBERT), a modi\ufb01cation of the BERT network us-"
+      },
+      {
+        "source": "sbert.pdf",
+        "page": 3,
+        "score": 5.98,
+        "text": "Sentence A  Sentence B  BERT BERT u v \npooling  pooling  (u, v, |u -v|) Softmax classifier  Figure 1: SBERT architecture with classi\ufb01cation ob-\njective function, e.g., for \ufb01ne-tuning on SNLI dataset.\nThe two BERT networks have tied weights (siamese\nnetwork structure).\ncomputed candidate embeddings using attention.\nThis idea works for \ufb01nding the highest scoring\nsentence in a larger collection. However, poly-\nencoders have the drawback that the score function\nis not symmetric and the computational overhead\nis too large for use-cases like clustering, which\nwould require O(n2)score computations.\nPrevious neural sentence embedding methods\nstarted the training from a random initialization.\nIn this publication, we use the pre-trained BERT\nand RoBERTa network and only \ufb01ne-tune it to"
+      },
+      {
+        "source": "sbert.pdf",
+        "page": 1,
+        "score": 5.26,
+        "text": "In this publication, we present Sentence-BERT\n(SBERT), a modi\ufb01cation of the BERT network us-\ning siamese and triplet networks that is able to\nderive semantically meaningful sentence embed-\ndings2. This enables BERT to be used for certain\nnew tasks, which up-to-now were not applicable\nfor BERT. These tasks include large-scale seman-\n1Code available: https://github.com/UKPLab/\nsentence-transformers\n2With semantically meaningful we mean that semantically\nsimilar sentences are close in vector space.tic similarity comparison, clustering, and informa-\ntion retrieval via semantic search.\nBERT set new state-of-the-art performance on\nvarious sentence classi\ufb01cation and sentence-pair\nregression tasks. BERT uses a cross-encoder: Two\nsentences are passed to the transformer network"
+      }
+    ],
+    "ttft": 4.792986000000383,
+    "total": 5.769419599993853,
+    "refused": false,
+    "retrieval_hit": true,
+    "correct": true,
+    "cited": true
+  },
+  {
+    "id": 12,
+    "type": "paraphrase",
+    "source": "sbert.pdf",
+    "question": "How much faster is SBERT than BERT at finding the most similar pair among 10,000 sentences?",
+    "keywords": [
+      "65 hours",
+      "5 seconds"
+    ],
+    "answer": "According to [S1], SBERT is about 9% faster than BERT at finding the most similar pair among 10,000 sentences.",
+    "sources": [
+      {
+        "source": "sbert.pdf",
+        "page": 2,
+        "score": 7.22,
+        "text": "most similar sentence pair in a collection of 10,000\nsentences is reduced from 65 hours with BERT to\nthe computation of 10,000 sentence embeddings\n(~5 seconds with SBERT) and computing cosine-\nsimilarity (~0.01 seconds). By using optimized\nindex structures, \ufb01nding the most similar Quora\nquestion can be reduced from 50 hours to a few\nmilliseconds (Johnson et al., 2017).\nWe \ufb01ne-tune SBERT on NLI data, which cre-\nates sentence embeddings that signi\ufb01cantly out-\nperform other state-of-the-art sentence embedding\nmethods like InferSent (Conneau et al., 2017) and\nUniversal Sentence Encoder (Cer et al., 2018). On\nseven Semantic Textual Similarity (STS) tasks,\nSBERT achieves an improvement of 11.7 points\ncompared to InferSent and 5.5 points compared to\nUniversal Sentence Encoder. On SentEval (Con-"
+      },
+      {
+        "source": "sbert.pdf",
+        "page": 8,
+        "score": 6.12,
+        "text": "ture. We evaluated the quality on various com-\nmon benchmarks, where it could achieve a sig-\nni\ufb01cant improvement over state-of-the-art sen-\ntence embeddings methods. Replacing BERT with\nRoBERTa did not yield a signi\ufb01cant improvement\nin our experiments.\nSBERT is computationally ef\ufb01cient. On a GPU,\nit is about 9% faster than InferSent and about 55%\nfaster than Universal Sentence Encoder. SBERT\ncan be used for tasks which are computationally\nnot feasible to be modeled with BERT. For exam-\nple, clustering of 10,000 sentences with hierarchi-\ncal clustering requires with BERT about 65 hours,\nas around 50 Million sentence combinations must\nbe computed. With SBERT, we were able to re-\nduce the effort to about 5 seconds."
+      },
+      {
+        "source": "sbert.pdf",
+        "page": 8,
+        "score": 5.42,
+        "text": "on GPUs. There, SBERT with smart batching\nis about 9% faster than InferSent and about 55%\nfaster than Universal Sentence Encoder. Smart\nbatching achieves a speed-up of 89% on CPU and\n48% on GPU. Average GloVe embeddings is obvi-\nously by a large margin the fastest method to com-\npute sentence embeddings.\n8 Conclusion\nWe showed that BERT out-of-the-box maps sen-\ntences to a vector space that is rather unsuit-\nable to be used with common similarity measures\nlike cosine-similarity. The performance for seven\nSTS tasks was below the performance of average\nGloVe embeddings.\nTo overcome this shortcoming, we presented\nSentence-BERT (SBERT). SBERT \ufb01ne-tunes\nBERT in a siamese / triplet network architec-\nture. We evaluated the quality on various com-\nmon benchmarks, where it could achieve a sig-"
+      },
+      {
+        "source": "sbert.pdf",
+        "page": 1,
+        "score": 4.8,
+        "text": "regression tasks. BERT uses a cross-encoder: Two\nsentences are passed to the transformer network\nand the target value is predicted. However, this\nsetup is unsuitable for various pair regression tasks\ndue to too many possible combinations. Finding\nin a collection of n= 10 000 sentences the pair\nwith the highest similarity requires with BERT\nn\u00b7(n\u22121)/2 = 49 995 000 inference computations.\nOn a modern V100 GPU, this requires about 65\nhours. Similar, \ufb01nding which of the over 40 mil-\nlion existent questions of Quora is the most similar\nfor a new question could be modeled as a pair-wise\ncomparison with BERT, however, answering a sin-\ngle query would require over 50 hours.\nA common method to address clustering and se-\nmantic search is to map each sentence to a vec-"
+      }
+    ],
+    "ttft": 4.8591231999889715,
+    "total": 5.262127399997553,
+    "refused": false,
+    "retrieval_hit": true,
+    "correct": false,
+    "cited": true
+  },
+  {
+    "id": 13,
+    "type": "positive",
+    "source": "sbert.pdf",
+    "question": "Which pooling strategy does SBERT use by default?",
+    "keywords": [
+      "mean"
+    ],
+    "answer": "The default pooling strategy used by SBERT is MEAN. [S1]",
+    "sources": [
+      {
+        "source": "sbert.pdf",
+        "page": 3,
+        "score": 4.85,
+        "text": "In this publication, we use the pre-trained BERT\nand RoBERTa network and only \ufb01ne-tune it to\nyield useful sentence embeddings. This reduces\nsigni\ufb01cantly the needed training time: SBERT can\nbe tuned in less than 20 minutes, while yielding\nbetter results than comparable sentence embed-\nding methods.\n3 Model\nSBERT adds a pooling operation to the output\nof BERT / RoBERTa to derive a \ufb01xed sized sen-\ntence embedding. We experiment with three pool-\ning strategies: Using the output of the CLS-token,\ncomputing the mean of all output vectors ( MEAN -\nstrategy), and computing a max-over-time of the\noutput vectors ( MAX-strategy). The default con\ufb01g-\nuration is MEAN .\nIn order to \ufb01ne-tune BERT / RoBERTa, we cre-\nate siamese and triplet networks (Schroff et al.,"
+      },
+      {
+        "source": "sbert.pdf",
+        "page": 8,
+        "score": 1.95,
+        "text": "are further apart.\nWhen trained with the regression objective\nfunction, we observe that the pooling strategy has\na large impact. There, the MAX strategy perform\nsigni\ufb01cantly worse than MEAN orCLS-token strat-\negy. This is in contrast to (Conneau et al., 2017),\nwho found it bene\ufb01cial for the BiLSTM-layer of\nInferSent to use MAX instead of MEAN pooling.\n7 Computational Ef\ufb01ciency\nSentence embeddings need potentially be com-\nputed for Millions of sentences, hence, a high\ncomputation speed is desired. In this section, we\ncompare SBERT to average GloVe embeddings,\nInferSent (Conneau et al., 2017), and Universal\nSentence Encoder (Cer et al., 2018).\nFor our comparison we use the sentences from\nthe STS benchmark (Cer et al., 2017). We com-\npute average GloVe embeddings using a sim-"
+      },
+      {
+        "source": "sbert.pdf",
+        "page": 7,
+        "score": 0.89,
+        "text": "We evaluated different pooling strategies\n(MEAN ,MAX, and CLS). For the classi\ufb01cation\nobjective function, we evaluate different concate-\nnation methods. For each possible con\ufb01guration,\nwe train SBERT with 10 different random seeds\nand average the performances.\nThe objective function (classi\ufb01cation vs. regres-\nsion) depends on the annotated dataset. For the\nclassi\ufb01cation objective function, we train SBERT-\nbase on the SNLI and the Multi-NLI dataset. For\nthe regression objective function, we train on the\ntraining set of the STS benchmark dataset. Perfor-\nmances are measured on the development split of\nthe STS benchmark dataset. Results are shown in\nTable 6.\nNLI STSb\nPooling Strategy\nMEAN 80.78 87.44\nMAX 79.07 69.92\nCLS 79.80 86.62\nConcatenation\n(u,v ) 66.04 -\n(|u\u2212v|) 69.78 -\n(u\u2217v) 70.54 -"
+      },
+      {
+        "source": "sbert.pdf",
+        "page": 7,
+        "score": 0.25,
+        "text": "MAX 79.07 69.92\nCLS 79.80 86.62\nConcatenation\n(u,v ) 66.04 -\n(|u\u2212v|) 69.78 -\n(u\u2217v) 70.54 -\n(|u\u2212v|,u\u2217v) 78.37 -\n(u,v,u\u2217v) 77.44 -\n(u,v,|u\u2212v|) 80.78 -\n(u,v,|u\u2212v|,u\u2217v)80.44 -\nTable 6: SBERT trained on NLI data with the clas-\nsi\ufb01cation objective function, on the STS benchmark\n(STSb) with the regression objective function. Con-\n\ufb01gurations are evaluated on the development set of the\nSTSb using cosine-similarity and Spearman\u2019s rank cor-\nrelation. For the concatenation methods, we only report\nscores with MEAN pooling strategy.\nWhen trained with the classi\ufb01cation objective\nfunction on NLI data, the pooling strategy has a\nrather minor impact. The impact of the concate-\nnation mode is much larger. InferSent (Conneau"
+      }
+    ],
+    "ttft": 4.825921300012851,
+    "total": 5.049958000003244,
+    "refused": false,
+    "retrieval_hit": true,
+    "correct": true,
+    "cited": true
+  },
+  {
+    "id": 14,
+    "type": "out_of_scope",
+    "source": null,
+    "question": "What is the population of Canada?",
+    "keywords": [],
+    "answer": "I don't know based on the provided documents.",
+    "sources": [],
+    "ttft": 2.305791999999201,
+    "total": 2.306115300001693,
+    "refused": true,
+    "correct": true,
+    "retrieval_hit": null,
+    "cited": false
+  },
+  {
+    "id": 15,
+    "type": "out_of_scope",
+    "source": null,
+    "question": "Who won the 2018 FIFA World Cup?",
+    "keywords": [],
+    "answer": "I don't know based on the provided documents.",
+    "sources": [],
+    "ttft": 2.354940599994734,
+    "total": 2.355829399995855,
+    "refused": true,
+    "correct": true,
+    "retrieval_hit": null,
+    "cited": false
+  },
+  {
+    "id": 16,
+    "type": "out_of_scope",
+    "source": null,
+    "question": "What is a good recipe for chocolate chip cookies?",
+    "keywords": [],
+    "answer": "I don't know based on the provided documents.",
+    "sources": [],
+    "ttft": 2.3964350999885937,
+    "total": 2.396811099999468,
+    "refused": true,
+    "correct": true,
+    "retrieval_hit": null,
+    "cited": false
+  },
+  {
+    "id": 17,
+    "type": "out_of_scope",
+    "source": null,
+    "question": "How many GPUs were used to train GPT-4?",
+    "keywords": [],
+    "answer": "I don't know based on the provided documents.",
+    "sources": [
+      {
+        "source": "attention.pdf",
+        "page": 7,
+        "score": 0.18,
+        "text": "2014 English-French dataset consisting of 36M sentences and split tokens into a 32000 word-piece\nvocabulary [ 38]. Sentence pairs were batched together by approximate sequence length. Each training\nbatch contained a set of sentence pairs containing approximately 25000 source tokens and 25000\ntarget tokens.\n5.2 Hardware and Schedule\nWe trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using\nthe hyperparameters described throughout the paper, each training step took about 0.4 seconds. We\ntrained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the\nbottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps\n(3.5 days).\n5.3 Optimizer"
+      },
+      {
+        "source": "attention.pdf",
+        "page": 8,
+        "score": 0.12,
+        "text": "in Table 2) outperforms the best previously reported models (including ensembles) by more than 2.0\nBLEU, establishing a new state-of-the-art BLEU score of 28.4. The configuration of this model is\nlisted in the bottom line of Table 3. Training took 3.5days on 8P100 GPUs. Even our base model\nsurpasses all previously published models and ensembles, at a fraction of the training cost of any of\nthe competitive models.\nOn the WMT 2014 English-to-French translation task, our big model achieves a BLEU score of 41.0,\noutperforming all of the previously published single models, at less than 1/4the training cost of the\nprevious state-of-the-art model. The Transformer (big) model trained for English-to-French used\ndropout rate Pdrop= 0.1, instead of 0.3."
+      },
+      {
+        "source": "attention.pdf",
+        "page": 8,
+        "score": -0.34,
+        "text": "model by multiplying the training time, the number of GPUs used, and an estimate of the sustained\nsingle-precision floating-point capacity of each GPU5.\n6.2 Model Variations\nTo evaluate the importance of different components of the Transformer, we varied our base model\nin different ways, measuring the change in performance on English-to-German translation on the\n5We used values of 2.8, 3.7, 6.0 and 9.5 TFLOPS for K80, K40, M40 and P100, respectively.\n8"
+      },
+      {
+        "source": "my_document.pdf",
+        "page": 17,
+        "score": -0.42,
+        "text": "their annotations were removed from the results.\nC Training setup Details\nWe train all RAG models and BART baselines using Fairseq [ 45].2We train with mixed precision\n\ufb02oating point arithmetic [ 40], distributing training across 8, 32GB NVIDIA V100 GPUs, though\ntraining and inference can be run on one GPU. We \ufb01nd that doing Maximum Inner Product Search\nwith FAISS is suf\ufb01ciently fast on CPU, so we store document index vectors on CPU, requiring \u223c100\nGB of CPU memory for all of Wikipedia. After submission, We have ported our code to HuggingFace\nTransformers [ 66]3, which achieves equivalent performance to the previous version but is a cleaner\nand easier to use implementation. This version is also open-sourced. We also compress the document"
+      }
+    ],
+    "ttft": 4.849940200001583,
+    "total": 4.958132599989767,
+    "refused": true,
+    "correct": true,
+    "retrieval_hit": null,
+    "cited": false
+  }
+]

@@ -1,0 +1,19 @@
+[
+  {"id": 1,  "type": "positive",     "source": "attention.pdf",   "question": "How many attention heads does the base Transformer use?", "keywords": ["8"]},
+  {"id": 2,  "type": "paraphrase",   "source": "attention.pdf",   "question": "In the Transformer paper, how many parallel attention layers run side by side?", "keywords": ["8"]},
+  {"id": 3,  "type": "positive",     "source": "attention.pdf",   "question": "How many identical layers are in the Transformer encoder stack?", "keywords": ["6"]},
+  {"id": 4,  "type": "positive",     "source": "attention.pdf",   "question": "What is the model dimension d_model of the base Transformer?", "keywords": ["512"]},
+  {"id": 5,  "type": "positive",     "source": "attention.pdf",   "question": "What BLEU score did the big Transformer reach on WMT 2014 English-to-German?", "keywords": ["28.4"]},
+  {"id": 6,  "type": "paraphrase",   "source": "attention.pdf",   "question": "Which optimization algorithm was used to train the Transformer?", "keywords": ["Adam"]},
+  {"id": 7,  "type": "positive",     "source": "my_document.pdf", "question": "What two RAG formulations does the paper compare?", "keywords": ["RAG-Sequence", "RAG-Token", "per token", "whole generated sequence"]},
+  {"id": 8,  "type": "paraphrase",   "source": "my_document.pdf", "question": "What component does RAG use to fetch relevant passages?", "keywords": ["DPR", "Dense Passage Retriever", "dense passage", "retriever"]},
+  {"id": 9,  "type": "positive",     "source": "my_document.pdf", "question": "Which pre-trained model does RAG use as its generator?", "keywords": ["BART"]},
+  {"id": 10, "type": "positive",     "source": "my_document.pdf", "question": "What knowledge source does RAG retrieve documents from?", "keywords": ["Wikipedia"]},
+  {"id": 11, "type": "positive",     "source": "sbert.pdf",       "question": "What network structures does Sentence-BERT use to fine-tune BERT?", "keywords": ["siamese", "triplet"]},
+  {"id": 12, "type": "paraphrase",   "source": "sbert.pdf",       "question": "How much faster is SBERT than BERT at finding the most similar pair among 10,000 sentences?", "keywords": ["65 hours", "5 seconds"]},
+  {"id": 13, "type": "positive",     "source": "sbert.pdf",       "question": "Which pooling strategy does SBERT use by default?", "keywords": ["mean"]},
+  {"id": 14, "type": "out_of_scope", "source": null,              "question": "What is the population of Canada?", "keywords": []},
+  {"id": 15, "type": "out_of_scope", "source": null,              "question": "Who won the 2018 FIFA World Cup?", "keywords": []},
+  {"id": 16, "type": "out_of_scope", "source": null,              "question": "What is a good recipe for chocolate chip cookies?", "keywords": []},
+  {"id": 17, "type": "out_of_scope", "source": null,              "question": "How many GPUs were used to train GPT-4?", "keywords": []}
+]
